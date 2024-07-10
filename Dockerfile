@@ -17,4 +17,4 @@ EXPOSE 81
 ENTRYPOINT ["streamlit", "run"]
 
 # This command tells Streamlit to run your app.py script when the container starts.
-CMD ["app.py"]
+CMD ["consumer_app.py"]
