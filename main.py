@@ -11,13 +11,13 @@ geolocator = Nominatim(user_agent="geoapiExercises")
     
 def run_queries(conn):
     try:
-        conn.runInstalledQuery("GenerateDistance")
-        conn.runInstalledQuery("add_weights")
-        #conn.runInstalledQuery("tg_louvain",params={"v_type_set":["Merchant","Merchant_Category"],"e_type_set":["associated"],"weight_attribute":"","result_attribute":"ML_ctid"})
-        conn.runInstalledQuery("tg_louvain",params={"v_type_set":["Merchant","Transaction","Location"],"e_type_set":["towards","located"],"weight_attribute":"ML_weight","result_attribute":"ML_ctlid"})
+        conn.runInstalledQuery("update_min_max_spent")
+        conn.runInstalledQuery("distance_time_from_last_transaction_for_newtransaction")
+        conn.runInstalledQuery("InsertBatchNo",params={"BatchNo":-1})
         conn.runInstalledQuery("tg_degree_cent",params={"v_type_set":["Merchant","Merchant_Category","CreditCard","Location"],"e_type_set":["towards","of_category","located","belongs_to"],"reverse_e_type_set":["towards","of_category","located","belongs_to"],"result_attribute":"ML_degCen"})
-        # conn.runInstalledQuery("fast_rp",params={"v_type_set":["CreditCard","Transaction","Merchant","Merchant_Category"],"e_type_set":["associated","located","of_category","belongs_to"],"output_v_type_set":["CreditCard"],
-        #                          "iteration_weights":"1,2,4","embedding_dimension":3,"default_length":3,"result_attribute":"ML_embedding"})
+        conn.runInstalledQuery("fast_rp",params={"v_type_set":["CreditCard","Transaction","Merchant","Merchant_Category"],"e_type_set":["towards","of_category","belongs_to"],"output_v_type_set":["Transaction"],"iteration_weights":"1,2,4","embedding_dimension":4,"default_length":4,
+                                                 "result_attribute":"ML_embedding","component_attribute":"batch_no","batch_number":-1})
+        conn.runInstalledQuery("InsertBatchNo",params={"BatchNo":0})
         return 1
     except Exception as e:
         st.write(str(e))
@@ -26,11 +26,11 @@ def run_queries(conn):
 def load_data_graph(conn,df):
     try:
         conn.upsertVertexDataFrame(df=df,vertexType="Location",v_id="merch_loc_id",attributes={'Loc_id': "merch_loc_id",'Lat'   : "merch_lat",
-                'Lon'   : "merch_long"})
+                'Lon'  : "merch_long"})
         
         conn.upsertVertexDataFrame(
             df=df,vertexType="Transaction",v_id="trans_num",attributes={'Transaction_id': "trans_num",'Transaction_Datetime'   : "transaction_datetime",
-                'Amount'   : "amt",'Is_fraud' : "is_fraud"})
+                'Amount'   : "amt",'ML_prediction' : "is_fraud"})
         
         conn.upsertEdgeDataFrame(df=df,sourceVertexType="Transaction",edgeType = "located",targetVertexType = "Location",from_id = "trans_num",to_id = "merch_loc_id",attributes = {})
         
@@ -67,7 +67,8 @@ def setup_consumer():
     consumer = KafkaConsumer(
         "creditcardfraud",
         bootstrap_servers=["172.16.20.71:9092"],
-        value_deserializer=lambda x: loads(x.decode('utf-8'))
+        value_deserializer=lambda x: loads(x.decode('utf-8')),
+        auto_offset_reset ="earliest"
         )
     
     return consumer
