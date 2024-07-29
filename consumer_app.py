@@ -42,6 +42,10 @@ else:
 if not st.session_state.logged_in:
     st.title("Please log in to access the application.")
     st.stop()
+
+if st.sidebar.button("Clear cache"):
+    st.cache_resource.clear()
+    st.experimental_rerun()
     
 st.title("Real-Time Data Consuming and Visualization")
 
