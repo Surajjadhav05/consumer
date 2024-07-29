@@ -16,7 +16,7 @@ def run_queries(conn):
         conn.runInstalledQuery("InsertBatchNo",params={"BatchNo":-1})
         conn.runInstalledQuery("tg_degree_cent",params={"v_type_set":["Merchant","Merchant_Category","CreditCard","Location"],"e_type_set":["towards","of_category","located","belongs_to"],"reverse_e_type_set":["towards","of_category","located","belongs_to"],"result_attribute":"ML_degCen"})
         conn.runInstalledQuery("fast_rp",params={"v_type_set":["CreditCard","Transaction","Merchant","Merchant_Category"],"e_type_set":["towards","of_category","belongs_to"],"output_v_type_set":["Transaction"],"iteration_weights":"1,2,4","embedding_dimension":4,"default_length":4,
-                                                 "result_attribute":"ML_embedding","component_attribute":"batch_no","batch_number":-1})
+                                                 "result_attribute":"ML_embedding","component_attribute":"ML_batch_no","batch_number":-1})
         conn.runInstalledQuery("InsertBatchNo",params={"BatchNo":0})
         return 1
     except Exception as e:
