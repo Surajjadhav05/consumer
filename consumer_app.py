@@ -27,7 +27,8 @@ except Exception as e:
     
 with st.sidebar:
     st.image("NVlogo.png",width=150)
-    st.header("Credit Card Fraud")
+    st.header("Novigo Solutions")
+    st.header("Credit Card Fraud - Data Consumer")
     
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
@@ -40,7 +41,7 @@ else:
         login()
 
 if not st.session_state.logged_in:
-    st.title("Please log in to access the application.")
+    st.title("Please click on login to access the application.!")
     st.stop()
 
 if st.sidebar.button("Clear cache"):
