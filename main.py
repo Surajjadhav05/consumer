@@ -67,8 +67,7 @@ def setup_consumer():
     consumer = KafkaConsumer(
         "creditcardfraud",
         bootstrap_servers=["172.16.20.71:9092"],
-        value_deserializer=lambda x: loads(x.decode('utf-8')),
-        auto_offset_reset ="earliest"
+        value_deserializer=lambda x: loads(x.decode('utf-8'))
         )
     
     return consumer
