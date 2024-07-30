@@ -1,4 +1,4 @@
-﻿Feature Name,Vertices Utilized
-Louvain Community ID,"Transaction,Mechant, Merchant Category"
+﻿Feature Name,Vertices Used 
 Degree Centrality,"Credit Card,  Merchant, Merchant Category"
-FastRP embedding,Credit Card
+FastRP embedding,"Credit Card,  Merchant, Merchant Category,Transaction"
+Custom query to get distance and time from last transaction done using card,"Credit card, Transaction, Location"
