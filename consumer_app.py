@@ -84,6 +84,7 @@ if consume:
                     st.write("")
                     placeholder_data = st.empty()
                     placeholder_data.text("Incoming Transaction Details")
+                    data.index=data.index.astype("int")
                     data.index=data.index+1
                     st.table(data[['cc_num', 'trans_num', 'amt', 'merchant', 'transaction_datetime']])
             
@@ -92,7 +93,6 @@ if consume:
                     data_1=data[["merch_lat","merch_long"]]
                     data_1["Address"]=data_1.apply(lambda x: get_address(str(x.merch_lat),str(x.merch_long)),axis=1)
                     data_1.columns=["Latitude","Longitude","Address"]
-                    data_1.index=data_1.index+1
                     st.table(data_1)
                     
                 
@@ -110,7 +110,7 @@ if consume:
                         load=load_data_graph(conn,data)
                         end_time=time.time()
                         placeholder_loading.text(f"Data Loaded on Graph in {int(end_time-start_time)} second")
-                        st.table(data)
+                        #st.table(data)
                     
                         
                 if load==1:     
@@ -133,9 +133,9 @@ if consume:
                                 with placeholder_fename.container():
                                     placeholder_variable_title=st.empty()
                                     placeholder_variable_title.text("Generated Features")
-                                    fea_df=pd.read_csv("features_details.csv")
-                                    fea_df.index=fea_df.index+1
-                                    st.table(fea_df)
+                                    df_f=pd.read_csv("features_details.csv")
+                                    df_f.index=df_f.index+1
+                                    st.table(df_f)
                         
                         if features==1:
                             prediction_placeholder=st.empty()
@@ -149,9 +149,9 @@ if consume:
                                     
                                     placeholder_model=st.empty()
                                     placeholder_model.text("Model Prediction")
-                                    pred=pd.DataFrame(response.json())
-                                    pred.index=pred.index+1
-                                    st.table(pred)
+                                    df_p=pd.DataFrame(response.json())
+                                    df_p.index=df_p.index+1
+                                    st.table(df_p)
                                     
                             except Exception as e:
                                 st.error(f"An error occurred: {e}")
