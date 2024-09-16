@@ -30,7 +30,7 @@ def load_data_graph(conn,df):
         
         conn.upsertVertexDataFrame(
             df=df,vertexType="Transaction",v_id="trans_num",attributes={'Transaction_id': "trans_num",'Transaction_Datetime'   : "transaction_datetime",
-                'Amount'   : "amt",'ML_prediction' : "is_fraud"})
+                'Amount'   : "amt",'ML_prediction' : "is_fraud","ML_Production_Data":"ML_Production_Data"})
         
         conn.upsertEdgeDataFrame(df=df,sourceVertexType="Transaction",edgeType = "located",targetVertexType = "Location",from_id = "trans_num",to_id = "merch_loc_id",attributes = {})
         
