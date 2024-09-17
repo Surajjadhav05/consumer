@@ -7,6 +7,10 @@ from geopy.geocoders import Nominatim
 import requests
 import time
 
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+
 st.set_page_config(
     page_title="Real-Time Data Consuming and Visualization",
     page_icon="✅",
@@ -140,7 +144,7 @@ if consume:
                         if features==1:
                             prediction_placeholder=st.empty()
                             try:
-                                response = requests.post("https://172.16.20.71:8004/api/predictor/predict")
+                                response = requests.post("https://172.16.20.71:8004/api/predictor/predict",verify=False)
                                 
                                 with prediction_placeholder.container():
                                     local_placeholder4=st.empty()
