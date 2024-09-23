@@ -142,7 +142,7 @@ if consume:
                                     st.table(df_f)
                         
                         if features==1:
-                            response1 = requests.post("https://172.16.20.71:8004/api/graph/clearcache",verify=False)
+                            response1 = requests.post("https://172.16.20.71:8003/api/graph/clearcache",verify=False)
                             prediction_placeholder=st.empty()
                             try:
                                 response = requests.post("https://172.16.20.71:8004/api/predictor/predict",verify=False)
