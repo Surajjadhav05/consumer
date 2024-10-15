@@ -57,7 +57,7 @@ def load_lottiefile(filepath: str):
 def setup_tg_connection():
     hostName = "https://172.16.20.71/"
     graphName = "CreditCardFraud"
-    secret ="crupk3h01dhv9i8quodlb1r521bbuaa0"
+    secret ="23ppgurt24vcf0a84b5dfbdk88gm701l"
     conn = tg.TigerGraphConnection(host=hostName,graphname=graphName, gsqlSecret=secret,tgCloud=False)
     conn = tg.TigerGraphConnection(host=hostName,graphname=graphName, gsqlSecret=secret,tgCloud=False,apiToken=conn.getToken(secret)[0])
     return conn
